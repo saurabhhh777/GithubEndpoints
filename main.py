@@ -21,22 +21,23 @@ def health():
 @app.get("/contributions/{username}")
 def get_contributions(username: str):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(
+            headless=True,
+            channel="chrome",  
+            args=["--no-sandbox"]  
+        )
         page = browser.new_page()
         page.goto(f"https://github.com/{username}")
-
-        # Wait for the contribution calendar to load
         page.wait_for_selector("td.ContributionCalendar-day")
 
-        # Extract contributions
         contribution_cells = page.query_selector_all("td.ContributionCalendar-day")
-
-        contributions = []
-        for cell in contribution_cells:
-            date = cell.get_attribute("data-date")
-            level = cell.get_attribute("data-level")
-            if date and level is not None:
-                contributions.append({"date": date, "level": int(level)})
+        contributions = [
+            {
+                "date": cell.get_attribute("data-date"),
+                "level": int(cell.get_attribute("data-level"))
+            }
+            for cell in contribution_cells if cell.get_attribute("data-date")
+        ]
 
         browser.close()
 
