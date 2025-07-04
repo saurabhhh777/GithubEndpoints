@@ -12,6 +12,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def health():
+    return {"status": "running"}
+
+
+
 @app.get("/contributions/{username}")
 def get_contributions(username: str):
     with sync_playwright() as p:
