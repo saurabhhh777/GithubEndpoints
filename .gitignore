@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+.env.*
+
+# VS Code or other IDEs
+.vscode/
+.idea/
+
+# Playwright stuff
+playwright/.cache/
+playwright/report/
+playwright/.playwright/
+
+# Render logs (if you run locally)
+*.log
