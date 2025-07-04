@@ -16,3 +16,4 @@ playwright/.playwright/
 
 # Render logs (if you run locally)
 *.log
+venv/
